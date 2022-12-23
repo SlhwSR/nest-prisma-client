@@ -5,18 +5,20 @@ import useLatestValue from "@/hooks/useLatestValue";
 import local from "@/utils/local";
 import qs from "qs";
 import { judgArr } from "@/utils/pararms";
-import {useLocation} from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 const silentCode = ["NOT_SET_TOTP_SECRET", "NOT_SET_PAY_PASSWORD"];
+import nProgress from "nprogress";
 const AxiosInterceptors = (props) => {
   //const auth = useLatestValue(useAuthStore);
- const location=useLocation()
+  const location = useLocation();
   const navigate = useLatestValue(useNavigate);
   useMemo(() => {
     if (props.request.interceptorInitialized) return; //解决热跟新的bug
     props.request.interceptorInitialized = true;
     props.request.interceptors.request.use(
       (config) => {
-        console.log("ccccc"+location.pathname);
+        console.log("ccccc" + location.pathname);
+        nProgress.start();
         // if (auth.current.token) {
         //   config.headers.Authorization = `Bearer ${auth.current.token}`;
         // }
@@ -25,9 +27,9 @@ const AxiosInterceptors = (props) => {
         //   navigate.current("/index")
         //   return;
         // }
-        // message.error("请先登录"); 
+        // message.error("请先登录");
         // navigate.current("/planManage");
-        config.headers.token =  
+        config.headers.token =
           // local.get("token") || "d958911d-031f-4c80-b5ee-64467608ff9c";
           window.localStorage.getItem("ISC_SSO_TOKEN") ||
           "d1c289c2-28b8-44d9-abff-c10f97bcf865";
@@ -41,15 +43,18 @@ const AxiosInterceptors = (props) => {
         return config;
       },
       (err) => {
+        nProgress.done();
         return Promise.reject(err);
       }
     );
 
     props.request.interceptors.response.use(
       (response) => {
+        nProgress.done();
         return response;
       },
       (err) => {
+        nProgress.done();
         return Promise.reject(err);
       }
     );
