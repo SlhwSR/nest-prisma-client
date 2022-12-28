@@ -22,17 +22,17 @@ import {
       mapList: [{
         key: "/",
         icon: createElement(HomeFilled),
-        label: "取样管理",
+        label: "帖子管理",
         children: [
           {
             key: "index",
             //  icon: createElement(UserOutlined),
-            label: "样品接受",
+            label: "文章管理",
           },
           {
             key: "producitonDate",
             // icon: createElement(LaptopOutlined),
-            label: "取样审核",
+            label: "分类管理",
           },
           // {
           //   key: "planManage/productionEdit",

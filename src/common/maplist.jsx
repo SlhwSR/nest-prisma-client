@@ -7,17 +7,17 @@ export const ColumnList = [
   {
     key: "/",
     icon: createElement(HomeFilled),
-    label: "取样管理",
+    label: "Category/Article",
     children: [
       {
         key: "index",
         //  icon: createElement(UserOutlined),
-        label: "样品接受",
+        label: "Article",
       },
       {
         key: "producitonDate",
         // icon: createElement(LaptopOutlined),
-        label: "取样审核",
+        label: "category",
       },
       // {
       //   key: "planManage/productionEdit",
