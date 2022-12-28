@@ -107,6 +107,7 @@ const GroupManage = memo(() => {
         });
         GetGroupList({ current, pageSize }).then((res) => {
           setDataSource(res.data.data);
+          setTotal(res.data.total);
         });
       })
       .catch((error) => {
@@ -180,7 +181,7 @@ const GroupManage = memo(() => {
         onCancel={() => {
           formEdit.setFieldsValue({
             title: "",
-            content: "",
+            content: "", 
           });
           setVisibile(false);
         }}

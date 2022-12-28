@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ConfigProvider } from "antd";
@@ -10,7 +10,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import './assets/css/base.css'
+import "./assets/css/base.css";
 dayjs.locale("zh-cn");
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider
@@ -20,15 +20,17 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         colorPrimary: "#2644A3",
         // borderRadius:"0"
       },
-      components:{ 
-        Menu:{
-          colorInfoBg:"#fff"
-        }
-      }
+      components: {
+        Menu: {
+          colorInfoBg: "#fff",
+        },
+      },
     }}
   >
     <Provider store={store}>
-      <RouterProvider router={router}></RouterProvider>
+      <Suspense fallback={<h1>loading....</h1>}>
+        <RouterProvider router={router}></RouterProvider>
+      </Suspense>
     </Provider>
   </ConfigProvider>
 );

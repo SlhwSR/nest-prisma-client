@@ -20,7 +20,7 @@ const AxiosInterceptors = (props) => {
         console.log("ccccc" + location.pathname);
         nProgress.start(); 
         config.headers['Authorization'] = 
-          // local.get("token") || "d958911d-031f-4c80-b5ee-64467608ff9c";
+          // local.get("token") || "d958911d-031f-4c80-b5ee-64467608ff9c"; 
           "Bearer "+window.localStorage.getItem("blog-token")?.split('"')?.join('')
           if (config.method === "get" && config.params !== null) {
           if (judgArr(config.params)) {
@@ -30,7 +30,7 @@ const AxiosInterceptors = (props) => {
           }
         }
         return config;
-      }, 
+      },  
       (err) => {
         nProgress.done();
         console.log("前置异常--------------");
