@@ -7,6 +7,8 @@ import {
   Row,
   Avatar,
   Menu,
+  Popover,
+  List,
 } from "antd";
 import React, { memo, Suspense, useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -16,7 +18,7 @@ import { useSelector } from "react-redux";
 const { Header, Content, Sider } = Layout;
 const Main = memo(() => {
   const navigate = useNavigate();
-  const mapList=useSelector((state)=>state.MenuList.mapList)
+  const mapList = useSelector((state) => state.MenuList.mapList);
   useEffect(() => {
     navigate("/index");
   }, []);
@@ -25,6 +27,10 @@ const Main = memo(() => {
     navigate(`/${key}`);
     //setbread(key);
   };
+  const quitLogin=()=>{
+    window.localStorage.removeItem("blog-token")
+    navigate("/login",{replace:'/login'})
+  }
   return (
     <Layout>
       <Header style={{ background: "#fff" }}>
@@ -49,11 +55,24 @@ const Main = memo(() => {
           </Col>
           <Col span={20}></Col>
           <Col>
-            <Avatar
-              alt="用户头像"
-              icon={<UserOutlined />}
-              style={{ marginLeft: "95%", cursor: "pointer" }}
-            ></Avatar>
+            <Popover
+              content={
+                <List>
+                  <List.Item>
+                    <span className="cursor-pointer">个人中心</span>
+                  </List.Item>
+                  <List.Item>
+                    <span className="cursor-pointer" onClick={()=>quitLogin()}>退出登录</span>
+                  </List.Item>
+                </List>
+              }
+            >
+              <Avatar
+                alt="用户头像"
+                icon={<UserOutlined />}
+                style={{ marginLeft: "95%", cursor: "pointer" }}
+              ></Avatar>
+            </Popover>
           </Col>
         </Row>
       </Header>

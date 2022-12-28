@@ -24,7 +24,7 @@ const Login = memo(() => {
           <div
             className="ml-96 text-2xl cursor-pointer font-bold col-span-5"
             onClick={() => setregister(!register)}
-          >
+          > 
             {register ? "注册" : "登录"}
           </div>
           <div className="login-logo">

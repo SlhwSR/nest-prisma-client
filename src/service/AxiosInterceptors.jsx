@@ -18,35 +18,26 @@ const AxiosInterceptors = (props) => {
     props.request.interceptors.request.use(
       (config) => {
         console.log("ccccc" + location.pathname);
-        nProgress.start();
-        // if (auth.current.token) {
-        //   config.headers.Authorization = `Bearer ${auth.current.token}`;
-        // }
-        // if(location.pathname==="/planManage"){
-        //   message.error("请登录！")
-        //   navigate.current("/index")
-        //   return;
-        // }
-        // message.error("请先登录");
-        // navigate.current("/planManage");
-        config.headers.token =
+        nProgress.start(); 
+        config.headers['Authorization'] = 
           // local.get("token") || "d958911d-031f-4c80-b5ee-64467608ff9c";
-          window.localStorage.getItem("ISC_SSO_TOKEN") ||
-          "d1c289c2-28b8-44d9-abff-c10f97bcf865";
-        if (config.method === "get" && config.params !== null) {
+          "Bearer "+window.localStorage.getItem("blog-token")?.split('"')?.join('')
+          if (config.method === "get" && config.params !== null) {
           if (judgArr(config.params)) {
             config.paramsSerializer = function (params) {
               return qs.stringify(params, { arrayFormat: "repeat" });
-            };
+            }; 
           }
         }
         return config;
-      },
+      }, 
       (err) => {
         nProgress.done();
+        console.log("前置异常--------------");
+        console.log(err);
         return Promise.reject(err);
       }
-    );
+    );  
 
     props.request.interceptors.response.use(
       (response) => {
@@ -54,7 +45,12 @@ const AxiosInterceptors = (props) => {
         return response;
       },
       (err) => {
-        nProgress.done();
+        nProgress.done(); 
+        console.log("---后置");
+        if(err?.response?.data.statusCode===401){
+          message.error("未授权请先登录！")
+          navigate.current("/login")
+        }
         return Promise.reject(err);
       }
     );

@@ -123,7 +123,7 @@ const GroupManage = memo(() => {
   return (
     <div>
       <Form form={form} onFinish={handleSearch}>
-        <Row gutter={24}>
+        <Row gutter={24}> 
           <Col span={14}></Col>
           <Col span={6}>
             <Form.Item label="标题" name={"title"}>

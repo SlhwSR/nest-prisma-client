@@ -7,29 +7,54 @@ import {
   CloseCircleOutlined,
   EnterOutlined,
 } from "@ant-design/icons";
-
+import {useLocalStorage} from 'react-use'
+import { toLogin, toRegister } from "@/service/modules/login";
 export const LoginForm = (props) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const { loginstate } = props;
   // 登录
-  const onFinish = async ({ username, password }) => {
+  const onFinish = async ({ email, password }) => {
+   if(loginstate===false){
     try {
       setLoading(true);
-      loginForm.password = md5(loginForm.password);
-      const { data } = await loginApi(loginForm);
-      props.setToken(data?.access_token);
-      props.setTabsList([]);
-      message.success("登录成功！");
-      navigate(HOME_URL);
+      const result = await toRegister({
+        email,
+        password,
+      });
+      console.log("------------");
+      console.log(result); 
+      message.success("注册成功！请登录");
+    } catch (error) {
+      message.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }
+   }else{
+    try {
+      setLoading(true);
+      const {data:{token}} = await toLogin({
+        email,
+        password,
+      });
+      message.success("登录成功！");
+      console.log("-------------------");
+      console.log(token);
+      // useLocalStorage('blog-token',JSON.stringify(token))
+      window.localStorage.setItem('blog-token',JSON.stringify(token))
+      navigate("/index");
+    } catch (error) {
+      message.error(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+   }
+   
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
+  }; 
   return (
     <Form
       form={form}
@@ -42,13 +67,10 @@ export const LoginForm = (props) => {
       autoComplete="off"
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[{ required: true, message: "请输入用户名" }]}
       >
-        <Input
-          placeholder="your account(admin|user)"
-          prefix={<UserOutlined />}
-        />
+        <Input placeholder="账号/邮箱" prefix={<UserOutlined />} />
       </Form.Item>
       <Form.Item
         name="password"
@@ -74,7 +96,7 @@ export const LoginForm = (props) => {
           htmlType="submit"
           loading={loading}
           icon={loginstate ? <UserOutlined /> : <EnterOutlined />}
-        >          
+        >
           {loginstate ? "登录" : "注册"}
         </Button>
       </Form.Item>

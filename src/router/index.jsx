@@ -38,15 +38,15 @@ export const router = createHashRouter([
           }
         ],
       },
-      {
-        path: "/login",
-        element: <Login></Login>,
-      },
       // {
       //   ptah: "*",
       //   element: <h1>404 NotFound</h1>,
       // },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
   },
   {
     ptah: "*",
