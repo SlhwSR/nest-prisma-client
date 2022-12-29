@@ -4,6 +4,9 @@ import { getGoodsList } from "@/store/goodsList";
 import { Button, Card, Form, Input, Modal, Upload, Image, message } from "antd";
 import MiniCard from "../../components/miniCard";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { AddOneCategory, getCategoryList } from "@/service/modules/category";
+import { getPersonalInfo } from "@/service/modules/personal";
+import { getUserDetail } from "@/service/modules/user";
 const PlanManage = memo(() => {
   const dispatch = useDispatch();
   const [someday, setSomeday] = useState([]);
@@ -11,8 +14,20 @@ const PlanManage = memo(() => {
   const [visibile, setVisibile] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState("");
+  const [list, setList] = useState([]);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
-    dispatch(getGoodsList());
+    getPersonalInfo().then((res) => {
+      setId(res.data?.id);
+      // getUserDetail({id:res.data.id}).then(res=>{
+      //   console.log(res);
+      // })
+    });
+    getCategoryList().then((res) => {
+      setList(res.data.data);
+      setTotal(res.data.total);
+    });
   }, []);
   const uploadButton = (
     <div>
@@ -52,6 +67,20 @@ const PlanManage = memo(() => {
     showUploadList: false,
     listType: "picture-card",
   };
+  const handleCategory = () => {
+    AddOneCategory({
+      name: form.getFieldValue("name"),
+      cover: imageUrl,
+      userId: id,
+    }).then((res) => {
+      message.success("新增成功！");
+      setVisibile(false);
+      getCategoryList().then((res) => {
+        setList(res.data.data);
+        setTotal(res.data.total);
+      });
+    });
+  };
   return (
     <div>
       <Button
@@ -65,11 +94,15 @@ const PlanManage = memo(() => {
         className="mx-auto flex space-x-4 flex-wrap justify-center space-y-10"
         style={{ width: "700px" }}
       >
-        {[1, 2, 3, 4].map((item, index) => (
-          <MiniCard></MiniCard>
+        {(list || []).map((item, index) => (
+          <MiniCard cover={item.cover} title={item.name}></MiniCard>
         ))}
       </div>
-      <Modal open={visibile} onCancel={() => setVisibile(false)}>
+      <Modal
+        open={visibile}
+        onCancel={() => setVisibile(false)}
+        onOk={handleCategory}
+      >
         <Form form={form} className="mt-7">
           <Form.Item
             label="分类名称"

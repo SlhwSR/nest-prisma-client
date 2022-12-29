@@ -9,28 +9,37 @@ import {
   Menu,
   Popover,
   List,
+  Space,
 } from "antd";
 import React, { memo, Suspense, useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import longLogo from "@/assets/img/longLogo.png";
 import { MenuFoldOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { getPersonalInfo } from "@/service/modules/personal";
+import { useState } from "react";
 const { Header, Content, Sider } = Layout;
 const Main = memo(() => {
   const navigate = useNavigate();
   const mapList = useSelector((state) => state.MenuList.mapList);
+  const [info, setInfo] = useState();
   useEffect(() => {
     navigate("/index");
+    getPersonalInfo().then((res) => {
+      // console.log("email");
+      // console.log(res.data?.email);
+      setInfo(res.data);
+    });
   }, []);
   const Controlbread = (item, key, value) => {
     console.log(item + "---" + key + "-----" + value);
     navigate(`/${key}`);
     //setbread(key);
   };
-  const quitLogin=()=>{
-    window.localStorage.removeItem("blog-token")
-    navigate("/login",{replace:'/login'})
-  }
+  const quitLogin = () => {
+    window.localStorage.removeItem("blog-token");
+    navigate("/login", { replace: "/login" });
+  };
   return (
     <Layout>
       <Header style={{ background: "#fff" }}>
@@ -53,26 +62,34 @@ const Main = memo(() => {
               {<MenuFoldOutlined />}
             </Button>
           </Col>
-          <Col span={20}></Col>
-          <Col>
-            <Popover
-              content={
-                <List>
-                  <List.Item>
-                    <span className="cursor-pointer">个人中心</span>
-                  </List.Item>
-                  <List.Item>
-                    <span className="cursor-pointer" onClick={()=>quitLogin()}>退出登录</span>
-                  </List.Item>
-                </List>
-              }
-            >
-              <Avatar
-                alt="用户头像"
-                icon={<UserOutlined />}
-                style={{ marginLeft: "95%", cursor: "pointer" }}
-              ></Avatar>
-            </Popover>
+          <Col span={18}></Col>
+          <Col className="ml-7">
+            <Space size={"small"}>
+              <span className="-mr-8">{info?.email}</span>
+              <Popover
+                content={
+                  <List>
+                    <List.Item>
+                      <span className="cursor-pointer">个人中心</span>
+                    </List.Item>
+                    <List.Item>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => quitLogin()}
+                      >
+                        退出登录
+                      </span>
+                    </List.Item>
+                  </List>
+                }
+              >
+                <Avatar
+                  alt="用户头像"
+                  icon={<UserOutlined />}
+                  style={{ marginLeft: "95%", cursor: "pointer" }}
+                ></Avatar>
+              </Popover>
+            </Space>
           </Col>
         </Row>
       </Header>
