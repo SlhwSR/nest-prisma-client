@@ -6,7 +6,6 @@ import MiniCard from "../../components/miniCard";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { AddOneCategory, getCategoryList } from "@/service/modules/category";
 import { getPersonalInfo } from "@/service/modules/personal";
-import { getUserDetail } from "@/service/modules/user";
 const PlanManage = memo(() => {
   const dispatch = useDispatch();
   const [someday, setSomeday] = useState([]);

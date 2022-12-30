@@ -10,7 +10,7 @@ const MiniCard = memo(({ cover, title }) => {
         style={{ width: 240 }}
         cover={<Image src={cover} preview={false}></Image>}
       >
-        <Meta title={title} description={"just a descitption"}></Meta>
+        <Meta title={title}></Meta>
       </Card>
     </div>
   );

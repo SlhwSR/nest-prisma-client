@@ -70,7 +70,7 @@ const Main = memo(() => {
                 content={
                   <List>
                     <List.Item>
-                      <span className="cursor-pointer">个人中心</span>
+                      <span className="cursor-pointer" onClick={()=>navigate("/personal",{state:{personalId:info.id}})}>个人中心</span>
                     </List.Item>
                     <List.Item>
                       <span

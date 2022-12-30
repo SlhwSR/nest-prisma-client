@@ -19,6 +19,8 @@ import {
   UpdateOne,
   searchSome,
 } from "@/service/modules/group";
+import { getPullCategoryList } from "@/service/modules/category";
+import { getPersonalInfo } from "@/service/modules/personal";
 const GroupManage = memo(() => {
   const { TextArea } = Input;
   const [form] = Form.useForm();
@@ -28,6 +30,7 @@ const GroupManage = memo(() => {
   const [isEdit, setIsEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [total, setTotal] = useState(0);
+  const [pullList, setPullList] = useState([]);
   const colum = [
     {
       dataIndex: "id",
@@ -86,6 +89,11 @@ const GroupManage = memo(() => {
       setDataSource(res.data.data);
       setTotal(res.data.total);
     });
+    getPersonalInfo().then((res) => {
+      getPullCategoryList({ id: res.data.id }).then((res) => {
+        setPullList(res.data)
+      });
+    });
   }, []);
   const addOne = () => {
     setVisibile(true);
@@ -124,7 +132,7 @@ const GroupManage = memo(() => {
   return (
     <div>
       <Form form={form} onFinish={handleSearch}>
-        <Row gutter={24}> 
+        <Row gutter={24}>
           <Col span={14}></Col>
           <Col span={6}>
             <Form.Item label="标题" name={"title"}>
@@ -138,7 +146,7 @@ const GroupManage = memo(() => {
               </Button>
               <Button
                 onClick={() => {
-                  GetGroupList({ current:1, pageSize:10 }).then((res) => {
+                  GetGroupList({ current: 1, pageSize: 10 }).then((res) => {
                     setDataSource(res.data.data);
                     setTotal(res.data.total);
                   });
@@ -151,7 +159,7 @@ const GroupManage = memo(() => {
                 onClick={() => addOne()}
                 icon={<PlusOutlined></PlusOutlined>}
               >
-                新增  
+                新增
               </Button>
             </Space>
           </Col>
@@ -181,7 +189,7 @@ const GroupManage = memo(() => {
         onCancel={() => {
           formEdit.setFieldsValue({
             title: "",
-            content: "", 
+            content: "",
           });
           setVisibile(false);
         }}

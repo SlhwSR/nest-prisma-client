@@ -1,6 +1,6 @@
 import { request } from '../index'
 //userDetail
-export const getUserDetail = (params) => {
+export const getUserCategoryDetail = (params) => {
     return request({
         url: `/user/detail/${params.id}`,
         method: "GET",

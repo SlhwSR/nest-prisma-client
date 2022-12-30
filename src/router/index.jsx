@@ -9,6 +9,7 @@ const Login=lazy(()=>import("@/pages/login"))
 const PlanManage=lazy(()=>import("@/pages/planManage"))
 const GroupManage=lazy(()=>import("@/pages/groupManage"))
 const CardManage=lazy(()=>import("@/pages/planManage"))
+const Personal =lazy(()=>import("@/pages/personal"))
 export const router = createHashRouter([
   {
     path: "/",
@@ -35,6 +36,9 @@ export const router = createHashRouter([
           {
             path:"/producitonDate",
             element:<CardManage/>
+          },{
+            path:"/personal",
+            element:<Personal></Personal>
           }
         ],
       },

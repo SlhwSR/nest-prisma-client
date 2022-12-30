@@ -15,3 +15,10 @@ export const getCategoryList = (params) => {
         params
     }) 
 }
+//pullList
+export const getPullCategoryList=(params)=>{
+    return request({
+        url:`/category/list/${params.id}`,
+        method:"GET"
+    })
+}
