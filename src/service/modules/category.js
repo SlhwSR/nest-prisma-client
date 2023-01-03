@@ -22,3 +22,10 @@ export const getPullCategoryList=(params)=>{
         method:"GET"
     })
 }
+//delete
+export const deleteCategory=(id)=>{
+    return request({
+        url:`/category/${id}`,
+        method:"DELETE"
+    })
+}

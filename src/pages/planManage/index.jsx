@@ -16,13 +16,14 @@ const PlanManage = memo(() => {
   const [id, setId] = useState("");
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
+  const info = useSelector((state) => state.userInfoList.info);
   useEffect(() => {
-    getPersonalInfo().then((res) => {
-      setId(res.data?.id);
-      // getUserDetail({id:res.data.id}).then(res=>{
-      //   console.log(res);
-      // })
-    });
+    // getPersonalInfo().then((res) => {
+    //   setId(res.data?.id);
+    //   // getUserDetail({id:res.data.id}).then(res=>{
+    //   //   console.log(res);
+    //   // })
+    // });
     getCategoryList().then((res) => {
       setList(res.data.data);
       setTotal(res.data.total);
@@ -70,7 +71,7 @@ const PlanManage = memo(() => {
     AddOneCategory({
       name: form.getFieldValue("name"),
       cover: imageUrl,
-      userId: id,
+      userId: info.id,
     }).then((res) => {
       message.success("新增成功！");
       setVisibile(false);
@@ -94,7 +95,19 @@ const PlanManage = memo(() => {
         style={{ width: "700px" }}
       >
         {(list || []).map((item, index) => (
-          <MiniCard cover={item.cover} title={item.name} description={"作者:"+item?.user?.email}></MiniCard>
+          <MiniCard
+            cover={item.cover}
+            title={item.name}
+            description={"作者:" + item?.user?.email}
+            permission={info.id === item?.user?.id}
+            id={item.id}
+            getListCallback={() => {
+              getCategoryList().then((res) => {
+                setList(res.data.data);
+                setTotal(res.data.total);
+              });
+            }}
+          ></MiniCard>
         ))}
       </div>
       <Modal

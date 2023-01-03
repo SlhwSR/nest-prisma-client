@@ -11,6 +11,7 @@ import { router } from "./router";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import "./assets/css/base.css";
+import '@wangeditor/editor/dist/css/style.css'
 dayjs.locale("zh-cn");
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider

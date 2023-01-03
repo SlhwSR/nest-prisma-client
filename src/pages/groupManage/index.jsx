@@ -14,10 +14,7 @@ import {
   Image,
 } from "antd";
 import React, { memo, useEffect, useState } from "react";
-import {
-  GetGroupList,
-  searchSome,
-} from "@/service/modules/group";
+import { GetGroupList, searchSome } from "@/service/modules/group";
 import { getPullCategoryList } from "@/service/modules/category";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -26,8 +23,10 @@ import {
   getArticleList,
   updateArticle,
   deleteArticle,
-  querySearch
+  querySearch,
 } from "@/service/modules/article";
+import { Editor, Toolbar } from "@wangeditor/editor-for-react";
+// import { IDomEditor, IEditorConfig, IToolbarConfig } from "@wangeditor/editor";
 const GroupManage = memo(() => {
   const { TextArea } = Input;
   const [form] = Form.useForm();
@@ -89,7 +88,10 @@ const GroupManage = memo(() => {
               </Button>
             </>
           ) : (
-            <Button>查看</Button>
+            <>
+              <Button>查看</Button>
+              <Button>留言</Button>
+            </>
           )}
         </Space>
       ),
@@ -111,10 +113,11 @@ const GroupManage = memo(() => {
     formEdit.setFieldValue("title", row.title);
     formEdit.setFieldValue("content", row.content);
     formEdit.setFieldValue("categoryId", row.categoryId);
+    setHtml(row.content)
     setArticleId(+row.id);
   };
   const updateOne = () => {
-    updateArticle({ ...formEdit.getFieldsValue(), id: articleId }).then(
+    updateArticle({ ...formEdit.getFieldsValue(), id: articleId,content:html }).then(
       (res) => {
         message.success("更新成功");
         GetGroupList({ current, pageSize }).then((res) =>
@@ -122,11 +125,20 @@ const GroupManage = memo(() => {
         );
         setVisibile2(false);
       }
-    );
+    ).catch(err=>{
+      // console.log(err.response.data.message);
+      message.error(err.response.data.message)
+    });
   };
   const info = useSelector((state) => state.userInfoList.info);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [editor, setEditor] = useState(null);
+  const [html, setHtml] = useState("");
+  const toolbarConfig = {};
+  const editorConfig = {
+    placeholder: "请输入内容...",
+  };
   useEffect(() => {
     // AddOneGroup().then(res=>console.log(res))
     GetGroupList({ current, pageSize }).then((res) => {
@@ -137,12 +149,19 @@ const GroupManage = memo(() => {
       setPullList(res.data);
     });
   }, []);
+  useEffect(() => {
+    return () => {
+      if (editor == null) return;
+      editor.destroy();
+      setEditor(null);
+    };
+  }, [editor]);
   const addOne = () => {
     setVisibile(true);
   };
   const handleData = () => {
-    console.log(formEdit.getFieldsValue());
-    AddOneArticle(formEdit.getFieldsValue())
+    // console.log(formEdit.getFieldsValue());
+    AddOneArticle({ ...formEdit.getFieldsValue(), content: html })
       .then((res) => {
         message.success("创建成功");
         // console.log("---------------------");
@@ -153,6 +172,7 @@ const GroupManage = memo(() => {
           content: "",
           categoryId: "",
         });
+        setHtml("")
         getArticleList({ current, pageSize }).then((res) => {
           setDataSource(res.data.data);
           setTotal(res.data.total);
@@ -166,7 +186,7 @@ const GroupManage = memo(() => {
   const handleSearch = (val) => {
     querySearch(val).then((res) => {
       setDataSource(res.data.data);
-      setTotal(res.data.total)
+      setTotal(res.data.total);
       // console.log(res.data);
     });
   };
@@ -268,9 +288,27 @@ const GroupManage = memo(() => {
           <Form.Item label="标题" name={"title"}>
             <Input></Input>
           </Form.Item>
-          <Form.Item label="内容" name="content">
-            <TextArea></TextArea>
-          </Form.Item>
+          {false && (
+            <Form.Item label="内容" name="content">
+              <TextArea></TextArea>
+            </Form.Item>
+          )}
+          <div style={{ border: "1px solid #ccc", zIndex: 100 }}>
+            <Toolbar
+              editor={editor}
+              defaultConfig={toolbarConfig}
+              mode="default"
+              style={{ borderBottom: "1px solid #ccc" }}
+            />
+            <Editor
+              defaultConfig={editorConfig}
+              value={html}
+              onCreated={setEditor}
+              onChange={(editor) => setHtml(editor.getHtml())}
+              mode="default"
+              style={{ height: "500px", overflowY: "hidden" }}
+            />
+          </div>
         </Form>
       </Modal>
       <Modal
@@ -296,10 +334,27 @@ const GroupManage = memo(() => {
           <Form.Item label="标题" name={"title"}>
             <Input></Input>
           </Form.Item>
-          <Form.Item label="内容" name="content">
-            <TextArea></TextArea>
-          </Form.Item>
-          {/* {false&& <Form.Item label="文章id"></Form.Item>} */}
+          {false && (
+            <Form.Item label="内容" name="content">
+              <TextArea></TextArea>
+            </Form.Item>
+          )}
+          <div style={{ border: "1px solid #ccc", zIndex: 100 }}>
+            <Toolbar
+              editor={editor}
+              defaultConfig={toolbarConfig}
+              mode="default"
+              style={{ borderBottom: "1px solid #ccc" }}
+            />
+            <Editor
+              defaultConfig={editorConfig}
+              value={html}
+              onCreated={setEditor}
+              onChange={(editor) => setHtml(editor.getHtml())}
+              mode="default"
+              style={{ height: "500px", overflowY: "hidden" }}
+            />
+          </div>
         </Form>
       </Modal>
     </div>
