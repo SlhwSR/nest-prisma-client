@@ -46,11 +46,14 @@ const AxiosInterceptors = (props) => {
       },
       (err) => {
         nProgress.done(); 
-        console.log("---后置");
         if(err?.response?.data.statusCode===401){
           message.error("未授权请先登录！")
           navigate.current("/login")
         }
+        console.log("---后置");
+        // message.error(JSON.stringify(err.response))
+          // console.log();
+        // if(err?.response.data.)
         return Promise.reject(err);
       }
     );

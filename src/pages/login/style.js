@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 export const LoginWrapper=styled.div`
 	display: flex;
 	align-items: center;
@@ -8,7 +7,7 @@ export const LoginWrapper=styled.div`
 	height: 900px;
 	min-height: 500px;
 	background-color: #eeeeee;
-	background-image: url("../../assets/img/login_bg.svg");
+	/* background-image: ; */
 	background-position: 50%;
 	background-size: 100% 100%;
 	background-size: cover;

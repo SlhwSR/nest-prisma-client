@@ -94,7 +94,7 @@ const PlanManage = memo(() => {
         style={{ width: "700px" }}
       >
         {(list || []).map((item, index) => (
-          <MiniCard cover={item.cover} title={item.name}></MiniCard>
+          <MiniCard cover={item.cover} title={item.name} description={"作者:"+item?.user?.email}></MiniCard>
         ))}
       </div>
       <Modal

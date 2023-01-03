@@ -1,6 +1,7 @@
 import React, { memo, useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import bg from '@/assets/img/login_bg.svg'
 import {
   UserOutlined,
   LockOutlined,
@@ -15,7 +16,7 @@ const Login = memo(() => {
   const [form] = Form.useForm();
   const [register, setregister] = useState(false);
   return (
-    <LoginWrapper>
+    <LoginWrapper bg={bg}>
       <div className="login-box">
         <div className="login-left">
           <img src={loginLeft} alt="login" />

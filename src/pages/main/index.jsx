@@ -15,19 +15,22 @@ import React, { memo, Suspense, useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import longLogo from "@/assets/img/longLogo.png";
 import { MenuFoldOutlined, UserOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPersonalInfo } from "@/service/modules/personal";
 import { useState } from "react";
+import { saveInfo } from "../../store/info";
 const { Header, Content, Sider } = Layout;
 const Main = memo(() => {
   const navigate = useNavigate();
   const mapList = useSelector((state) => state.MenuList.mapList);
   const [info, setInfo] = useState();
+  const dispatch=useDispatch()
   useEffect(() => {
     navigate("/index");
     getPersonalInfo().then((res) => {
       // console.log("email");
       // console.log(res.data?.email);
+      dispatch(saveInfo(res.data))
       setInfo(res.data);
     });
   }, []);

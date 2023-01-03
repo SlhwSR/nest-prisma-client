@@ -10,17 +10,24 @@ import {
   Modal,
   Table,
   message,
+  Select,
+  Image,
 } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import {
-  AddOneGroup,
   GetGroupList,
-  DeleteOne,
-  UpdateOne,
   searchSome,
 } from "@/service/modules/group";
 import { getPullCategoryList } from "@/service/modules/category";
-import { getPersonalInfo } from "@/service/modules/personal";
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+import {
+  AddOneArticle,
+  getArticleList,
+  updateArticle,
+  deleteArticle,
+  querySearch
+} from "@/service/modules/article";
 const GroupManage = memo(() => {
   const { TextArea } = Input;
   const [form] = Form.useForm();
@@ -31,10 +38,20 @@ const GroupManage = memo(() => {
   const [dataSource, setDataSource] = useState([]);
   const [total, setTotal] = useState(0);
   const [pullList, setPullList] = useState([]);
+  const [articleId, setArticleId] = useState(0);
   const colum = [
     {
       dataIndex: "id",
       title: "序号Id",
+    },
+    {
+      // dataIndex: "categoryId",
+      title: "所属分类",
+      render: (_, row, index) => <span>{row?.category?.name}</span>,
+    },
+    {
+      title: "分类封面",
+      render: (_, row, index) => <Image src={row?.category?.cover}></Image>,
     },
     {
       dataIndex: "title",
@@ -45,24 +62,47 @@ const GroupManage = memo(() => {
       title: "内容",
     },
     {
+      dataIndex: "createdAt",
+      title: "创建时间",
+      render: (_, row, index) => (
+        <span>{dayjs(row.createdAt).format("YYYY-MM-DD-hh:mm:ss")}</span>
+      ),
+    },
+    {
+      dataIndex: "updatedAt",
+      title: "更新时间",
+      render: (_, row, index) => (
+        <span>{dayjs(row.updatedAt).format("YYYY-MM-DD-hh:mm:ss")}</span>
+      ),
+    },
+    {
       title: "操作",
       render: (_, row) => (
         <Space>
-          <Button type="primary" onClick={() => eidt(row)}>
-            编辑
-          </Button>
-          <Button type="danger" onClick={() => deleteOne(row.id)}>
-            删除
-          </Button>
+          {row.category.userId === info.id ? (
+            <>
+              <Button type="primary" onClick={() => eidt(row)}>
+                编辑
+              </Button>
+              <Button type="danger" onClick={() => deleteOne(row.id)}>
+                删除
+              </Button>
+            </>
+          ) : (
+            <Button>查看</Button>
+          )}
         </Space>
       ),
     },
   ];
   const deleteOne = (id) => {
-    DeleteOne(id).then((res) => {
+    deleteArticle(id).then((res) => {
       message.success("删除成功");
-      GetGroupList({ current, pageSize }).then((res) =>
-        setDataSource(res.data.data)
+      GetGroupList({ current, pageSize }).then(
+        (res) => {
+          setDataSource(res.data.data);
+          setTotal(res.data.total);
+        } // setTotal(res.data.total)
       );
     });
   };
@@ -70,17 +110,21 @@ const GroupManage = memo(() => {
     setVisibile2(true);
     formEdit.setFieldValue("title", row.title);
     formEdit.setFieldValue("content", row.content);
-    formEdit.setFieldValue("id", row.id);
+    formEdit.setFieldValue("categoryId", row.categoryId);
+    setArticleId(+row.id);
   };
   const updateOne = () => {
-    UpdateOne(formEdit.getFieldsValue()).then((res) => {
-      message.success("更新成功");
-      GetGroupList({ current, pageSize }).then((res) =>
-        setDataSource(res.data.data)
-      );
-      setVisibile2(false);
-    });
+    updateArticle({ ...formEdit.getFieldsValue(), id: articleId }).then(
+      (res) => {
+        message.success("更新成功");
+        GetGroupList({ current, pageSize }).then((res) =>
+          setDataSource(res.data.data)
+        );
+        setVisibile2(false);
+      }
+    );
   };
+  const info = useSelector((state) => state.userInfoList.info);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   useEffect(() => {
@@ -89,10 +133,8 @@ const GroupManage = memo(() => {
       setDataSource(res.data.data);
       setTotal(res.data.total);
     });
-    getPersonalInfo().then((res) => {
-      getPullCategoryList({ id: res.data.id }).then((res) => {
-        setPullList(res.data)
-      });
+    getPullCategoryList({ id: info.id }).then((res) => {
+      setPullList(res.data);
     });
   }, []);
   const addOne = () => {
@@ -100,10 +142,7 @@ const GroupManage = memo(() => {
   };
   const handleData = () => {
     console.log(formEdit.getFieldsValue());
-    AddOneGroup({
-      title: formEdit.getFieldValue("title"),
-      content: formEdit.getFieldValue("content"),
-    })
+    AddOneArticle(formEdit.getFieldsValue())
       .then((res) => {
         message.success("创建成功");
         // console.log("---------------------");
@@ -112,8 +151,9 @@ const GroupManage = memo(() => {
         formEdit.setFieldsValue({
           title: "",
           content: "",
+          categoryId: "",
         });
-        GetGroupList({ current, pageSize }).then((res) => {
+        getArticleList({ current, pageSize }).then((res) => {
           setDataSource(res.data.data);
           setTotal(res.data.total);
         });
@@ -124,8 +164,9 @@ const GroupManage = memo(() => {
       });
   };
   const handleSearch = (val) => {
-    searchSome(val).then((res) => {
-      setDataSource(res.data);
+    querySearch(val).then((res) => {
+      setDataSource(res.data.data);
+      setTotal(res.data.total)
       // console.log(res.data);
     });
   };
@@ -217,6 +258,13 @@ const GroupManage = memo(() => {
           style={{ marginTop: "30px" }}
           onFinish={handleData}
         >
+          <Form.Item label="分类" name={"categoryId"}>
+            <Select>
+              {(pullList || []).map((item, index) => (
+                <Select.Option value={item.id}>{item.name}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item label="标题" name={"title"}>
             <Input></Input>
           </Form.Item>
@@ -238,8 +286,12 @@ const GroupManage = memo(() => {
         ]}
       >
         <Form form={formEdit} style={{ marginTop: "30px" }}>
-          <Form.Item label="id" name={"id"}>
-            <Input disabled={true}></Input>
+          <Form.Item label="分类" name={"categoryId"}>
+            <Select>
+              {(pullList || []).map((item, index) => (
+                <Select.Option value={item.id}>{item.name}</Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item label="标题" name={"title"}>
             <Input></Input>
@@ -247,6 +299,7 @@ const GroupManage = memo(() => {
           <Form.Item label="内容" name="content">
             <TextArea></TextArea>
           </Form.Item>
+          {/* {false&& <Form.Item label="文章id"></Form.Item>} */}
         </Form>
       </Modal>
     </div>
