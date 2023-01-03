@@ -50,7 +50,7 @@ const GroupManage = memo(() => {
     },
     {
       title: "分类封面",
-      render: (_, row, index) => <Image src={row?.category?.cover}></Image>,
+      render: (_, row, index) => <Image src={row?.category?.cover} width={80} height={50}></Image>,
     },
     {
       dataIndex: "title",
