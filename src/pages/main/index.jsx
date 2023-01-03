@@ -48,13 +48,7 @@ const Main = memo(() => {
       <Header style={{ background: "#fff" }}>
         <Row gutter={24}>
           <Col span={2}>
-            <Image
-              src={longLogo}
-              preview={false}
-              width={120}
-              className="ml-0"
-              height={22}
-            ></Image>
+            <span className="b">blog-Admin</span>
           </Col>
           <Col>
             <Button
