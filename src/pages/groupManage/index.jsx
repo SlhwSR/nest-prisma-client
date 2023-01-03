@@ -50,7 +50,9 @@ const GroupManage = memo(() => {
     },
     {
       title: "分类封面",
-      render: (_, row, index) => <Image src={row?.category?.cover} width={80} height={50}></Image>,
+      render: (_, row, index) => (
+        <Image src={row?.category?.cover} width={80} height={50}></Image>
+      ),
     },
     {
       dataIndex: "title",
@@ -113,22 +115,26 @@ const GroupManage = memo(() => {
     formEdit.setFieldValue("title", row.title);
     formEdit.setFieldValue("content", row.content);
     formEdit.setFieldValue("categoryId", row.categoryId);
-    setHtml(row.content)
+    setHtml(row.content);
     setArticleId(+row.id);
   };
   const updateOne = () => {
-    updateArticle({ ...formEdit.getFieldsValue(), id: articleId,content:html }).then(
-      (res) => {
+    updateArticle({
+      ...formEdit.getFieldsValue(),
+      id: articleId,
+      content: html,
+    })
+      .then((res) => {
         message.success("更新成功");
         GetGroupList({ current, pageSize }).then((res) =>
           setDataSource(res.data.data)
         );
         setVisibile2(false);
-      }
-    ).catch(err=>{
-      // console.log(err.response.data.message);
-      message.error(err.response.data.message)
-    });
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        message.error(err.response.data.message);
+      });
   };
   const info = useSelector((state) => state.userInfoList.info);
   const [current, setCurrent] = useState(1);
@@ -138,6 +144,12 @@ const GroupManage = memo(() => {
   const toolbarConfig = {};
   const editorConfig = {
     placeholder: "请输入内容...",
+    MENU_CONF: {
+      uploadImage: {
+        server: "http://localhost:3000/upload/editorPic",
+        fieldName: "file",
+      },
+    },
   };
   useEffect(() => {
     // AddOneGroup().then(res=>console.log(res))
@@ -172,7 +184,7 @@ const GroupManage = memo(() => {
           content: "",
           categoryId: "",
         });
-        setHtml("")
+        setHtml("");
         getArticleList({ current, pageSize }).then((res) => {
           setDataSource(res.data.data);
           setTotal(res.data.total);
