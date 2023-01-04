@@ -55,7 +55,11 @@ const Personal = memo(() => {
             label: "我创建的文章",
             key: "2",
             children: (articleList || []).map((item, index) => (
-              <MiniCard cover={item.category?.cover} title={item.title} description={item.content}></MiniCard>
+              <MiniCard
+                cover={item.category?.cover}
+                title={item.title}
+                description={item.content}
+              ></MiniCard>
             )),
           },
         ]}

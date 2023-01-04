@@ -5,6 +5,9 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined,DeleteOutlined } from '
 import {deleteCategory} from '@/service/modules/category'
 const { Meta } = Card;
 const MiniCard = memo(({ cover, title, description,permission,id,getListCallback }) => {
+  const dealHtml=(val)=>{
+    return <div dangerouslySetInnerHTML={{__html:val}}></div>
+  }
   return (
     <div>
       <Card
@@ -24,7 +27,7 @@ const MiniCard = memo(({ cover, title, description,permission,id,getListCallback
           }} />,
         ]:[]}
       >
-        <Meta title={title} description={description ? description : ""}></Meta>
+        <Meta title={title} description={description ?dealHtml(description) : ""}></Meta>
       </Card>
     </div>
   );

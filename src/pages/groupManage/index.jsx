@@ -26,6 +26,7 @@ import {
   querySearch,
 } from "@/service/modules/article";
 import { Editor, Toolbar } from "@wangeditor/editor-for-react";
+import { useNavigate } from "react-router-dom";
 // import { IDomEditor, IEditorConfig, IToolbarConfig } from "@wangeditor/editor";
 const GroupManage = memo(() => {
   const { TextArea } = Input;
@@ -38,6 +39,7 @@ const GroupManage = memo(() => {
   const [total, setTotal] = useState(0);
   const [pullList, setPullList] = useState([]);
   const [articleId, setArticleId] = useState(0);
+  const navigate=useNavigate()
   const colum = [
     {
       dataIndex: "id",
@@ -47,6 +49,10 @@ const GroupManage = memo(() => {
       // dataIndex: "categoryId",
       title: "所属分类",
       render: (_, row, index) => <span>{row?.category?.name}</span>,
+    },
+    {
+      title: "作者",
+      render: (_, row, index) => <span>{row.category.user.email}</span>,
     },
     {
       title: "分类封面",
@@ -82,16 +88,17 @@ const GroupManage = memo(() => {
         <Space>
           {row.category.userId === info.id ? (
             <>
+              <Button onClick={()=>checkDetail(row)}>查看</Button>
               <Button type="primary" onClick={() => eidt(row)}>
                 编辑
               </Button>
-              <Button type="danger" onClick={() => deleteOne(row.id)}>
+              <Button danger type="primary" onClick={() => deleteOne(row.id)}>
                 删除
               </Button>
             </>
           ) : (
             <>
-              <Button>查看</Button>
+              <Button onClick={()=>checkDetail(row)}>查看</Button>
               <Button>留言</Button>
             </>
           )}
@@ -149,8 +156,15 @@ const GroupManage = memo(() => {
         server: "http://localhost:3000/upload/editorPic",
         fieldName: "file",
       },
+      uploadVideo:{
+        server:"http://localhost:3000/upload/video",
+        fieldName:"file"
+      }
     },
   };
+  const checkDetail=(row)=>{
+    navigate("/articleDetail",{state:{detail:row}})
+  }
   useEffect(() => {
     // AddOneGroup().then(res=>console.log(res))
     GetGroupList({ current, pageSize }).then((res) => {

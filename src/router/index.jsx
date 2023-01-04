@@ -1,15 +1,16 @@
 import { createHashRouter } from "react-router-dom";
-import {lazy} from 'react'
+import { lazy } from "react";
 import App from "../App";
 import Main from "../pages/main";
 //import PlanManage from "../pages/planManage";
 // import AxiosInterceptors from "../service/AxiosInterceptors";
-import { request,AxiosInterceptors } from "../service/index";
-const Login=lazy(()=>import("@/pages/login"))
-const PlanManage=lazy(()=>import("@/pages/planManage"))
-const GroupManage=lazy(()=>import("@/pages/groupManage"))
-const CardManage=lazy(()=>import("@/pages/planManage"))
-const Personal =lazy(()=>import("@/pages/personal"))
+import { request, AxiosInterceptors } from "../service/index";
+const Login = lazy(() => import("@/pages/login"));
+const PlanManage = lazy(() => import("@/pages/planManage"));
+const GroupManage = lazy(() => import("@/pages/groupManage"));
+const CardManage = lazy(() => import("@/pages/planManage"));
+const Personal = lazy(() => import("@/pages/personal"));
+const ArticleDetail = lazy(() => import("@/pages/articleDetail"));
 export const router = createHashRouter([
   {
     path: "/",
@@ -19,12 +20,12 @@ export const router = createHashRouter([
         <AxiosInterceptors request={request}></AxiosInterceptors>
       </>
     ),
-    children: [ 
+    children: [
       {
         path: "/",
         element: <Main></Main>,
         children: [
-          {   
+          {
             path: "/index",
             element: <GroupManage></GroupManage>,
             //index: true,
@@ -34,11 +35,16 @@ export const router = createHashRouter([
             element: <PlanManage></PlanManage>,
           },
           {
-            path:"/producitonDate",
-            element:<CardManage/>
-          },{
-            path:"/personal",
-            element:<Personal></Personal>
+            path: "/producitonDate",
+            element: <CardManage />,
+          },
+          {
+            path: "/personal",
+            element: <Personal></Personal>,
+          },
+          {
+            path:"/articleDetail",
+            element:<ArticleDetail></ArticleDetail>
           }
         ],
       },
