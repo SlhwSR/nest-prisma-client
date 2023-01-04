@@ -34,17 +34,12 @@ import {
             // icon: createElement(LaptopOutlined),
             label: "分类管理",
           },
-          // {
-          //   key: "planManage/productionEdit",
-          //   icon: createElement(EditOutlined),
-          //   label: "生产计划填报",
-          // },
         ],
       },
       {
-        key: "productionManage",
+        key: "video",
         icon: createElement(FundOutlined),
-        label: "请验单管理",
+        label: "视频管理",
         children: [
           // {
           //   key: "productionShowList",
@@ -52,14 +47,14 @@ import {
           //   label: "计划指令单审核",
           // },
           {
-            key: "productioConfirm",
+            key: "video/category",
             // icon: createElement(LaptopOutlined),
-            label: "计划指令单分解",
+            label: "视频分类",
           },
           {
-            key: "orderInfoList",
+            key: "video/list",
             // icon: createElement(BarChartOutlined),
-            label: "计划指令单确认",
+            label: "视频列表",
           },
           // {
           //   key:'productioConfirm',

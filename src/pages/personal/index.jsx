@@ -123,7 +123,7 @@ const Personal = memo(() => {
             children: (
               <div className="w-full flex flex-wrap space-x-3 space-y-3">
                 {(categoryList || []).map((item) => (
-                    <MiniCard cover={item.cover} title={item.name}></MiniCard>
+                  <MiniCard cover={item.cover} title={item.name}></MiniCard>
                 ))}
               </div>
             ),

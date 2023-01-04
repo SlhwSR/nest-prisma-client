@@ -11,6 +11,8 @@ const GroupManage = lazy(() => import("@/pages/groupManage"));
 const CardManage = lazy(() => import("@/pages/planManage"));
 const Personal = lazy(() => import("@/pages/personal"));
 const ArticleDetail = lazy(() => import("@/pages/articleDetail"));
+const VideoCategory = lazy(() => import("@/pages/videoCategory"));
+const VideoList=lazy(()=>import("@/pages/videoList"))
 export const router = createHashRouter([
   {
     path: "/",
@@ -43,8 +45,16 @@ export const router = createHashRouter([
             element: <Personal></Personal>,
           },
           {
-            path:"/articleDetail",
-            element:<ArticleDetail></ArticleDetail>
+            path: "/articleDetail",
+            element: <ArticleDetail></ArticleDetail>,
+          },
+          {
+            path: "/video/category",
+            element: <VideoCategory></VideoCategory>,
+          },
+          {
+            path:"/video/list",
+            element:<VideoList></VideoList>
           }
         ],
       },
