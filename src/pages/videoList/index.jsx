@@ -1,9 +1,5 @@
-import React, { memo } from 'react'
-
+import React, { memo } from "react";
 const VideoList = memo(() => {
-  return (
-    <div>VideoList</div>
-  )
-})
-
-export default VideoList
+  return <div>VideoList</div>;
+});
+export default VideoList;
