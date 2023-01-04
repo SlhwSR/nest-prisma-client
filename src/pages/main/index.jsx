@@ -82,6 +82,18 @@ const Main = memo(() => {
                     <List.Item>
                       <span
                         className="cursor-pointer"
+                        onClick={() =>
+                          navigate("/personal", {
+                            state: { personalId: info.id },
+                          })
+                        }
+                      >
+                        修改密码
+                      </span>
+                    </List.Item>
+                    <List.Item>
+                      <span
+                        className="cursor-pointer"
                         onClick={() => quitLogin()}
                       >
                         退出登录

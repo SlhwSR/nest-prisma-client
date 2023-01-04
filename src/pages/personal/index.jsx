@@ -120,22 +120,28 @@ const Personal = memo(() => {
           {
             label: "我创建的分类",
             key: "1",
-            children: (categoryList || []).map((item) => (
-              <div className="w-full flex flex-nowrap flex-col">
-                <MiniCard cover={item.cover} title={item.name}></MiniCard>
+            children: (
+              <div className="w-full flex flex-wrap space-x-3 space-y-3">
+                {(categoryList || []).map((item) => (
+                    <MiniCard cover={item.cover} title={item.name}></MiniCard>
+                ))}
               </div>
-            )),
+            ),
           },
           {
             label: "我创建的文章",
             key: "2",
-            children: (articleList || []).map((item, index) => (
-              <MiniCard
-                cover={item.category?.cover}
-                title={item.title}
-                description={item.content}
-              ></MiniCard>
-            )),
+            children: (
+              <div className="w-full flex flex-wrap space-x-3 space-y-3">
+                {(articleList || []).map((item, index) => (
+                  <MiniCard
+                    cover={item.category?.cover}
+                    title={item.title}
+                    description={item.content}
+                  ></MiniCard>
+                ))}
+              </div>
+            ),
           },
         ]}
       ></Tabs>
