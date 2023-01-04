@@ -28,7 +28,8 @@
     "react-use": "^17.4.0",
     "redux-logger": "^3.0.6",
     "socket.io-client": "^4.5.4",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "xgplayer": "^2.32.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
