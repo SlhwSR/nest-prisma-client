@@ -15,3 +15,14 @@ export const getUserArticle = (id) => {
     method: "GET",
   });
 };
+
+//更新头像
+export const updateAvatar=(params)=>{
+  return request({
+    url:`/user/avatar/${params.id}`,
+    method:"PATCH",
+    data:{
+      avatar:params.avatar
+    }
+  })
+}

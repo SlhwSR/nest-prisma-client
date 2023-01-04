@@ -24,13 +24,14 @@ const Main = memo(() => {
   const navigate = useNavigate();
   const mapList = useSelector((state) => state.MenuList.mapList);
   const [info, setInfo] = useState();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfoList.info);
   useEffect(() => {
     navigate("/index");
     getPersonalInfo().then((res) => {
       // console.log("email");
       // console.log(res.data?.email);
-      dispatch(saveInfo(res.data))
+      dispatch(saveInfo(res.data));
       setInfo(res.data);
     });
   }, []);
@@ -67,7 +68,16 @@ const Main = memo(() => {
                 content={
                   <List>
                     <List.Item>
-                      <span className="cursor-pointer" onClick={()=>navigate("/personal",{state:{personalId:info.id}})}>个人中心</span>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() =>
+                          navigate("/personal", {
+                            state: { personalId: info.id },
+                          })
+                        }
+                      >
+                        个人中心
+                      </span>
                     </List.Item>
                     <List.Item>
                       <span
@@ -80,11 +90,19 @@ const Main = memo(() => {
                   </List>
                 }
               >
-                <Avatar
-                  alt="用户头像"
-                  icon={<UserOutlined />}
-                  style={{ marginLeft: "95%", cursor: "pointer" }}
-                ></Avatar>
+                {userInfo.avatar ? (
+                  <Avatar
+                    alt="用户头像"
+                    src={userInfo.avatar}
+                    style={{ marginLeft: "95%", cursor: "pointer" }}
+                  ></Avatar>
+                ) : (
+                  <Avatar
+                    alt="用户头像"
+                    icon={<UserOutlined />}
+                    style={{ marginLeft: "95%", cursor: "pointer" }}
+                  ></Avatar>
+                )}
               </Popover>
             </Space>
           </Col>
