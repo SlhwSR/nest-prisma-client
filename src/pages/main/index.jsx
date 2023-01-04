@@ -49,7 +49,7 @@ const Main = memo(() => {
       <Header style={{ background: "#fff" }}>
         <Row gutter={24}>
           <Col span={2}>
-            <span className="b">blog-Admin</span>
+            <span className="b">随意-Admin</span>
           </Col>
           <Col>
             <Button
