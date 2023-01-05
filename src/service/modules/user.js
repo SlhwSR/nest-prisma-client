@@ -26,3 +26,11 @@ export const updateAvatar=(params)=>{
     }
   })
 }
+//跟新密码
+export const modifyPassword=(id,body)=>{
+   return request({
+    url:`/user/modify/password/${id}`,
+    method:"PATCH",
+    data:body
+   })
+}
