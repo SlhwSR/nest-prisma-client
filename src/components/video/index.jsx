@@ -11,6 +11,7 @@ const Video = memo(({ url, poster, category }) => {
       // 默认静音
       volume: 0,
       autoplay: false,
+      cors:false,
       screenShot: true,
       url, // "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-720p.mp4",
       poster, //"https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg",
@@ -22,7 +23,7 @@ const Video = memo(({ url, poster, category }) => {
   });
   return (
     <VideoWrapper>
-      <div id="mse"></div>
+      <div id="mse"></div> 
       {category ? <span>所属分类:{category}</span> : ""}
     </VideoWrapper>
   );

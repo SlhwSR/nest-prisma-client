@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const request = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3000/api",
   timeout: 15000,
 });
 request.defaults.headers["X-Requested-With"] = "XMLHttpRequest";
