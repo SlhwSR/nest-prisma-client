@@ -46,7 +46,7 @@ const Personal = memo(() => {
   };
   const uploadConfig = {
     name: "file",
-    action: "http://localhost:3000/upload/image",
+    action: "http://localhost:3000/api/upload/image",
     headers: {
       authorization:
         "Bearer " +

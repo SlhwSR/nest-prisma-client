@@ -153,11 +153,11 @@ const GroupManage = memo(() => {
     placeholder: "请输入内容...",
     MENU_CONF: {
       uploadImage: {
-        server: "http://localhost:3000/upload/editorPic",
+        server: "http://localhost:3000/api/upload/editorPic",
         fieldName: "file",
       },
       uploadVideo:{
-        server:"http://localhost:3000/upload/video",
+        server:"http://localhost:3000/api/upload/video",
         fieldName:"file"
       }
     },

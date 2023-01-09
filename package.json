@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/compatible": "^5.1.1",
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "@reduxjs/toolkit": "^1.9.0",
@@ -23,6 +24,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-html-comment": "^2.0.16",
     "react-player": "^2.11.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",

@@ -7,6 +7,7 @@ export const AddOneArticle = (data) => {
     data,
   });
 };
+//文章列表
 export const getArticleList = (params) => {
   return request({
     url: "/article",
@@ -14,7 +15,7 @@ export const getArticleList = (params) => {
     params,
   });
 };
-//update
+//更新
 export const updateArticle = (data) => {
   return request({
     url: `/article/${data.id}`,
@@ -26,13 +27,14 @@ export const updateArticle = (data) => {
     },
   });
 };
+//删除某条文章
 export const deleteArticle = (id) => {
   return request({
     url: `/article/${id}`,
     method: "DELETE",
   });
 };
-
+//搜索
 export const querySearch = (params) => {
   return request({
     url: "/article/findSome",
@@ -40,3 +42,18 @@ export const querySearch = (params) => {
     params,
   });
 };
+//添加某条评论
+export const addOneComment=(data)=>{
+  return request({
+    url:"/article/comment",
+    method:"POST",
+    data
+  })
+}
+//获取文章评论
+export const getOneArticleCommentList=(id)=>{
+  return request({
+    url:`/article/comment/${id}`,
+    method:"GET"
+  })
+}

@@ -10,7 +10,7 @@ import {
 import { deleteCategory } from "@/service/modules/category";
 const { Meta } = Card;
 const MiniCard = memo(
-  ({ cover, title, description, permission, id, getListCallback }) => {
+  ({ cover, title, description, permission, id, getListCallback,editCallback }) => {
     const dealHtml = (val) => {
       return <div dangerouslySetInnerHTML={{ __html: val }}></div>;
     };
@@ -24,7 +24,7 @@ const MiniCard = memo(
             permission
               ? [
                   <SettingOutlined key="setting" />,
-                  <EditOutlined key="edit" />,
+                  <EditOutlined key="edit" onClick={()=>editCallback(title,cover)}/>,
                   <DeleteOutlined
                     key="ellipsis"
                     onClick={() => {

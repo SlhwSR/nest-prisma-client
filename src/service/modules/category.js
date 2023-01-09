@@ -29,3 +29,11 @@ export const deleteCategory=(id)=>{
         method:"DELETE"
     })
 }
+//update
+export const updateCategory=(id,data)=>{
+    return request({
+        url:`/category/${id}`,
+        method:"PATCH",
+        data
+    })
+}

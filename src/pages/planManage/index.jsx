@@ -4,18 +4,20 @@ import { getGoodsList } from "@/store/goodsList";
 import { Button, Card, Form, Input, Modal, Upload, Image, message } from "antd";
 import MiniCard from "../../components/miniCard";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { AddOneCategory, getCategoryList } from "@/service/modules/category";
+import { AddOneCategory, getCategoryList,updateCategory } from "@/service/modules/category";
 import { getPersonalInfo } from "@/service/modules/personal";
 const PlanManage = memo(() => {
   const dispatch = useDispatch();
-  const [someday, setSomeday] = useState([]);
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const [visibile, setVisibile] = useState(false);
+  const [visibile2, setVisibile2] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [loading, setLoading] = useState(false);
-  const [id, setId] = useState("");
   const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
+  const [updateCover, setUpdateCover] = useState(null);
+  const [updateId, setUpdateId] = useState(null);
   const info = useSelector((state) => state.userInfoList.info);
   useEffect(() => {
     // getPersonalInfo().then((res) => {
@@ -43,7 +45,7 @@ const PlanManage = memo(() => {
   );
   const uploadConfig = {
     name: "file",
-    action: "http://localhost:3000/upload/image",
+    action: "http://localhost:3000/api/upload/image",
     headers: {
       authorization:
         "Bearer " +
@@ -59,6 +61,7 @@ const PlanManage = memo(() => {
         const result =
           "http://localhost:3000/uploads/" + info.file.response.filename;
         setImageUrl(result);
+        setUpdateCover(result)
         // const url=info.response.d
       } else if (info.file.status === "error") {
         message.error("上传失败");
@@ -80,6 +83,23 @@ const PlanManage = memo(() => {
         setTotal(res.data.total);
       });
     });
+  };
+  const updateOneCategory = () => {
+    updateCategory(updateId,{
+      name:form2.getFieldValue("name"),
+      cover:updateCover
+    }).then(res=>{
+       if(res.data.data.code===200){
+        message.success("更新成功!")
+        setVisibile2(false)
+        getCategoryList().then((res) => {
+          setList(res.data.data);
+          setTotal(res.data.total);
+        });
+       }else{
+        message.error("更新异常")
+       }
+    })
   };
   return (
     <div>
@@ -107,6 +127,12 @@ const PlanManage = memo(() => {
                 setTotal(res.data.total);
               });
             }}
+            editCallback={(title, cover) => {
+              setVisibile2(true);
+              setUpdateCover(cover);
+              setUpdateId(item.id);
+              form2.setFieldValue("name",title)
+            }}
           ></MiniCard>
         ))}
       </div>
@@ -130,6 +156,36 @@ const PlanManage = memo(() => {
           >
             <Upload {...uploadConfig}>
               {imageUrl ? <Image src={imageUrl}></Image> : uploadButton}
+            </Upload>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        open={visibile2}
+        onCancel={() => setVisibile2(false)}
+        onOk={updateOneCategory}
+      >
+        <Form form={form2} className="mt-7">
+          <Form.Item
+            label="分类名称"
+            name="name"
+            rules={[{ message: "封面必传!", required: true }]}
+          >
+            <Input></Input>
+          </Form.Item>
+          <Form.Item
+            label="分类封面"
+            name={"cover"}
+            rules={[{ message: "封面必传!", required: true }]}
+          >
+            <Upload {...uploadConfig}>
+              {imageUrl ? (
+                <Image src={imageUrl}></Image>
+              ) : updateCover?.length>0 ? (
+                <Image src={updateCover}></Image>
+              ) : (
+                uploadButton
+              )}
             </Upload>
           </Form.Item>
         </Form>

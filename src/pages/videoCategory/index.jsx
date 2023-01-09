@@ -33,10 +33,10 @@ const VideoCategory = memo(() => {
   const [list, setList] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const uploadConfig = {
     name: "file",
-    action: "http://localhost:3000/upload/image",
+    action: "http://localhost:3000/api/upload/image",
     headers: {
       authorization:
         "Bearer " +
@@ -62,7 +62,7 @@ const VideoCategory = memo(() => {
   };
   const videoConfig = {
     name: "file",
-    action: "http://localhost:3000/upload/video",
+    action: "http://localhost:3000/api/upload/video",
     headers: {
       authorization:
         "Bearer " +
@@ -134,6 +134,9 @@ const VideoCategory = memo(() => {
         if (res.data.data.code === 200) {
           message.success("上传成功");
           setVisibile2(false);
+          setImageUrl(null);
+          setVideoUrl(null);
+          form.setFieldValue("name", "");
           getCategoryList();
         }
       })
@@ -167,14 +170,19 @@ const VideoCategory = memo(() => {
                 label: item1.name,
                 key: item1.id,
                 children: (item1.videos || []).map((item, index) => (
-                  <span onClick={()=>navigate("/video/detail",{state:{...item}})} style={{margin:"25px"}}>
-                  <MiniCard
-                    cover={item?.poster}
-                    title={item1.name}
-                    description={dayjs(item?.createAt).format(
-                      "YYYY-MM-DD-hh:mm:ss"
-                    )}
-                  ></MiniCard>
+                  <span
+                    onClick={() =>
+                      navigate("/video/detail", { state: { ...item } })
+                    }
+                    style={{ margin: "25px" }}
+                  >
+                    <MiniCard
+                      cover={item?.poster}
+                      title={item1.name}
+                      description={dayjs(item?.createAt).format(
+                        "YYYY-MM-DD-hh:mm:ss"
+                      )}
+                    ></MiniCard>
                   </span>
                 )),
               };
@@ -225,7 +233,11 @@ const VideoCategory = memo(() => {
             rules={[{ required: true, message: "封面必填" }]}
           >
             <Upload {...uploadConfig}>
-              {imageUrl ? <Image src={imageUrl}></Image> : uploadButton}
+              {imageUrl.length > 0 ? (
+                <Image src={imageUrl}></Image>
+              ) : (
+                uploadButton
+              )}
             </Upload>
           </Form.Item>
           <Form.Item
