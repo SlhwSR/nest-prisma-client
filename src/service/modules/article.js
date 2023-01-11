@@ -57,3 +57,23 @@ export const getOneArticleCommentList=(id)=>{
     method:"GET"
   })
 }
+//回复评论
+export const replyOneComment=(data)=>{
+  return request({
+    url:'/article/comment/reply',
+    method:"POST",
+    data
+  })
+}
+
+//给某条评论点赞
+export const addZan=(id,userId)=>{
+  return request({
+    url:"/article/dianzan",
+    method:"POST",
+    data:{
+      commentId:id,
+      userId
+    }
+  })
+}
