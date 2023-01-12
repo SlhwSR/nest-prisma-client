@@ -27,6 +27,7 @@ import {
   addZan,
 } from "@/service/modules/article";
 import dayjs from "dayjs";
+import { isEmpty } from "lodash-es";
 const { TextArea } = Input;
 const ArticleDetail = memo(() => {
   const location = useLocation();
@@ -48,9 +49,10 @@ const ArticleDetail = memo(() => {
     });
     // console.log(location.state);
   }, []);
-  const like = (commentId,likeList) => {
-    if(likeList.some(reply=>info.id===reply.userId)){
-      message.warning("你已经点赞过了")
+  const like = (commentId, likeList = []) => {
+    if (likeList.some((reply) => info.id === reply.userId)) {
+      console.log("---------");
+      message.warning("你已经点赞过了");
       return;
     }
     addZan(commentId, info.id).then((res) => {
@@ -209,7 +211,7 @@ const ArticleDetail = memo(() => {
             <Comment
               actions={[
                 <Tooltip key="comment-basic-like" title="Like">
-                  <span onClick={() => like(item.id)}>
+                  <span onClick={() => like(item.id, item.likeList)}>
                     {createElement(
                       action === "liked" ? LikeFilled : LikeOutlined
                     )}
