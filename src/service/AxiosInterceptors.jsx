@@ -27,7 +27,7 @@ const AxiosInterceptors = (props) => {
             config.paramsSerializer = function (params) {
               return qs.stringify(params, { arrayFormat: "repeat" });
             }; 
-          }
+          } 
         }
         return config;
       },  

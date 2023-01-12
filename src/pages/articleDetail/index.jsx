@@ -36,11 +36,11 @@ const ArticleDetail = memo(() => {
   const [value, setValue] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [visibile, setVisibile] = useState(false);
-  const [visibile2,setVisibile2]=useState(false)
+  const [visibile2, setVisibile2] = useState(false);
   const [commentId, setCommentId] = useState(0);
   const [userId, setUserId] = useState(0);
   const [commentContent, setCommentContent] = useState("");
-  const [commentReply,setCommentReply]=useState("")
+  const [commentReply, setCommentReply] = useState("");
   const info = useSelector((state) => state.userInfoList.info);
   useEffect(() => {
     getOneArticleCommentList(location.state.detail.id).then((res) => {
@@ -48,7 +48,11 @@ const ArticleDetail = memo(() => {
     });
     // console.log(location.state);
   }, []);
-  const like = (commentId) => {
+  const like = (commentId,likeList) => {
+    if(likeList.some(reply=>info.id===reply.userId)){
+      message.warning("你已经点赞过了")
+      return;
+    }
     addZan(commentId, info.id).then((res) => {
       if (res.data.data.code === 200) {
         message.success("点赞成功!");
@@ -126,7 +130,7 @@ const ArticleDetail = memo(() => {
             <Comment
               actions={[
                 <Tooltip key="comment-basic-like" title="Like">
-                  <span onClick={() => like(item.id)}>
+                  <span onClick={() => like(item.id, item.likeList)}>
                     {createElement(
                       item.likeList.some((infos) => infos.userId === info.id)
                         ? LikeFilled
