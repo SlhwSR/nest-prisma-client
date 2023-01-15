@@ -15,8 +15,14 @@ import {
   Input,
   message,
 } from "antd";
-import React, { memo, Suspense, useEffect } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import React, { memo, Suspense, useEffect, useRef } from "react";
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useOutlet,
+} from "react-router-dom";
 import longLogo from "@/assets/img/longLogo.png";
 import { MenuFoldOutlined, UserOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +30,8 @@ import { getPersonalInfo } from "@/service/modules/personal";
 import { modifyPassword } from "@/service/modules/user";
 import { useState } from "react";
 import { saveInfo } from "../../store/info";
+import { CSSTransition, Transition } from "react-transition-group";
+import "@/assets/css/transition.css";
 const { Header, Content, Sider } = Layout;
 const Main = memo(() => {
   const navigate = useNavigate();
@@ -32,8 +40,12 @@ const Main = memo(() => {
   const { useForm } = Form;
   const dispatch = useDispatch();
   const [form] = useForm();
+  const animateRef = useRef(null);
+  const location = useLocation();
   const [passwordVisibile, setPasswordVisibile] = useState(false);
+  const currentOutLet = useOutlet();
   const userInfo = useSelector((state) => state.userInfoList.info);
+
   useEffect(() => {
     navigate("/index");
     getPersonalInfo().then((res) => {
@@ -54,17 +66,19 @@ const Main = memo(() => {
   };
   const dealPawword = () => {
     console.log(form.getFieldsValue());
-    modifyPassword(info.id, form.getFieldsValue()).then((res) => {
-      // console.log(res);
-      if (res.data.data.code === 200) {
-        message.error("修改成功请重新登录")
-        window.localStorage.removeItem("blog-token");
-        navigate("/login", { replace: "/login" });
-      }
-    }).catch(err=>{
-      // console.log(err.response.data.message);
-       message.error(err.response.data.message)
-    })
+    modifyPassword(info.id, form.getFieldsValue())
+      .then((res) => {
+        // console.log(res);
+        if (res.data.data.code === 200) {
+          message.error("修改成功请重新登录");
+          window.localStorage.removeItem("blog-token");
+          navigate("/login", { replace: "/login" });
+        }
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        message.error(err.response.data.message);
+      });
   };
   return (
     <Layout>
@@ -172,7 +186,21 @@ const Main = memo(() => {
               fallback={<h1>loading....</h1>}
               style={{ overflow: "auto" }}
             >
-              <Outlet></Outlet>
+              <Transition>
+                <CSSTransition
+                  key={location.pathname}
+                  nodeRef={animateRef}
+                  timout={1000}
+                  classNames="main"
+                >
+                  {(state) => (
+                    <div ref={animateRef} className="main">
+                      {currentOutLet}
+                    </div>
+                  )}
+                </CSSTransition>
+              </Transition>
+              {/* <Outlet></Outlet> */}
             </Suspense>
           </Content>
         </Layout>

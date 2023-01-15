@@ -1,9 +1,12 @@
-import React, { memo } from 'react'
-
+import React, { memo } from "react";
+import { Spin } from "antd";
+import "./index.css";
 const Loading = memo(() => {
   return (
-    <div>Loading</div>
-  )
-})
+    <div className="example">
+      <Spin></Spin>
+    </div>
+  );
+});
 
-export default Loading
+export default Loading;

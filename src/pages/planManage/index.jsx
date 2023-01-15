@@ -4,7 +4,11 @@ import { getGoodsList } from "@/store/goodsList";
 import { Button, Card, Form, Input, Modal, Upload, Image, message } from "antd";
 import MiniCard from "../../components/miniCard";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { AddOneCategory, getCategoryList,updateCategory } from "@/service/modules/category";
+import {
+  AddOneCategory,
+  getCategoryList,
+  updateCategory,
+} from "@/service/modules/category";
 import { getPersonalInfo } from "@/service/modules/personal";
 const PlanManage = memo(() => {
   const dispatch = useDispatch();
@@ -39,7 +43,7 @@ const PlanManage = memo(() => {
           marginTop: 8,
         }}
       >
-        Upload
+        上传
       </div>
     </div>
   );
@@ -61,7 +65,7 @@ const PlanManage = memo(() => {
         const result =
           "http://localhost:3000/uploads/" + info.file.response.filename;
         setImageUrl(result);
-        setUpdateCover(result)
+        setUpdateCover(result);
         // const url=info.response.d
       } else if (info.file.status === "error") {
         message.error("上传失败");
@@ -85,21 +89,21 @@ const PlanManage = memo(() => {
     });
   };
   const updateOneCategory = () => {
-    updateCategory(updateId,{
-      name:form2.getFieldValue("name"),
-      cover:updateCover
-    }).then(res=>{
-       if(res.data.data.code===200){
-        message.success("更新成功!")
-        setVisibile2(false)
+    updateCategory(updateId, {
+      name: form2.getFieldValue("name"),
+      cover: updateCover,
+    }).then((res) => {
+      if (res.data.data.code === 200) {
+        message.success("更新成功!");
+        setVisibile2(false);
         getCategoryList().then((res) => {
           setList(res.data.data);
           setTotal(res.data.total);
         });
-       }else{
-        message.error("更新异常")
-       }
-    })
+      } else {
+        message.error("更新异常");
+      }
+    });
   };
   return (
     <div>
@@ -131,7 +135,7 @@ const PlanManage = memo(() => {
               setVisibile2(true);
               setUpdateCover(cover);
               setUpdateId(item.id);
-              form2.setFieldValue("name",title)
+              form2.setFieldValue("name", title);
             }}
           ></MiniCard>
         ))}
@@ -181,7 +185,7 @@ const PlanManage = memo(() => {
             <Upload {...uploadConfig}>
               {imageUrl ? (
                 <Image src={imageUrl}></Image>
-              ) : updateCover?.length>0 ? (
+              ) : updateCover?.length > 0 ? (
                 <Image src={updateCover}></Image>
               ) : (
                 uploadButton

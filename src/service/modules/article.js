@@ -38,42 +38,41 @@ export const deleteArticle = (id) => {
 export const querySearch = (params) => {
   return request({
     url: "/article/findSome",
-    method:"GET",
+    method: "GET",
     params,
   });
 };
 //添加某条评论
-export const addOneComment=(data)=>{
+export const addOneComment = (data) => {
   return request({
-    url:"/article/comment",
-    method:"POST",
-    data
-  })
-}
+    url: "/article/comment", 
+    method: "POST",
+    data,
+  });
+};  
 //获取文章评论
-export const getOneArticleCommentList=(id)=>{
+export const getOneArticleCommentList = (id) => {
   return request({
-    url:`/article/comment/${id}`,
-    method:"GET"
-  })
-}
+    url: `/article/comment/${id}`,
+    method: "GET",
+  });
+};
 //回复评论
-export const replyOneComment=(data)=>{
+export const replyOneComment = (data) => {
   return request({
-    url:'/article/comment/reply',
-    method:"POST",
-    data
-  })
-}
-
+    url: "/article/comment/reply",
+    method: "POST",
+    data,
+  });
+};
 //给某条评论点赞
-export const addZan=(id,userId)=>{
+export const addZan = (id, userId) => {
   return request({
-    url:"/article/dianzan",
-    method:"POST",
-    data:{
-      commentId:id,
-      userId
-    }
-  })
-}
+    url: "/article/dianzan",
+    method: "POST",
+    data: {
+      commentId: id,
+      userId,
+    },
+  });
+};

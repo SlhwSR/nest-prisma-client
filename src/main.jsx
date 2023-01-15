@@ -11,7 +11,9 @@ import { router } from "./router";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import "./assets/css/base.css";
-import '@wangeditor/editor/dist/css/style.css'
+import "@wangeditor/editor/dist/css/style.css";
+import { SwitchTransition } from "react-transition-group";
+import Loading from '@/components/loading'
 dayjs.locale("zh-cn");
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider
@@ -29,8 +31,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     }}
   >
     <Provider store={store}>
-      <Suspense fallback={<h1>loading....</h1>}>
-        <RouterProvider router={router}></RouterProvider>
+      <Suspense fallback={<Loading></Loading>}>
+        <SwitchTransition>
+          <RouterProvider router={router}></RouterProvider>
+        </SwitchTransition>
       </Suspense>
     </Provider>
   </ConfigProvider>
