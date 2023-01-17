@@ -49,7 +49,7 @@ const PlanManage = memo(() => {
   );
   const uploadConfig = {
     name: "file",
-    action: "http://localhost:3000/api/upload/image",
+    action: import.meta.env.VITE_BASE_URL + "/api/upload/image",
     headers: {
       authorization:
         "Bearer " +
@@ -62,8 +62,9 @@ const PlanManage = memo(() => {
       if (info.file.status === "done") {
         message.success(`${info.file.name}` + "上传成功");
         console.log("--------------------------");
-        const result =
-          "http://localhost:3000/uploads/" + info.file.response.filename;
+        console.log("-------上传ing");
+        console.log(info.file);
+        const result = info.file.response.url;
         setImageUrl(result);
         setUpdateCover(result);
         // const url=info.response.d

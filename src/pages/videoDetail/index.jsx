@@ -11,8 +11,8 @@ const VideoDetail = memo(() => {
   }, []);
   return (
     <div className="ml-96">
-      <video src={url} autoPlay loop></video>
-      {/* <Video url={url} poster={poster}></Video> */}
+      {/* <video src={url} autoPlay loop></video> */}
+      <Video url={url} poster={poster}></Video>
     </div>
   );
 });

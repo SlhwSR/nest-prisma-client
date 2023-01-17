@@ -39,7 +39,7 @@ const GroupManage = memo(() => {
   const [total, setTotal] = useState(0);
   const [pullList, setPullList] = useState([]);
   const [articleId, setArticleId] = useState(0);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const colum = [
     {
       dataIndex: "id",
@@ -88,7 +88,7 @@ const GroupManage = memo(() => {
         <Space>
           {row.category.userId === info.id ? (
             <>
-              <Button onClick={()=>checkDetail(row)}>查看</Button>
+              <Button onClick={() => checkDetail(row)}>查看</Button>
               <Button type="primary" onClick={() => eidt(row)}>
                 编辑
               </Button>
@@ -98,7 +98,7 @@ const GroupManage = memo(() => {
             </>
           ) : (
             <>
-              <Button onClick={()=>checkDetail(row)}>查看</Button>
+              <Button onClick={() => checkDetail(row)}>查看</Button>
               <Button>留言</Button>
             </>
           )}
@@ -153,18 +153,18 @@ const GroupManage = memo(() => {
     placeholder: "请输入内容...",
     MENU_CONF: {
       uploadImage: {
-        server: "http://localhost:3000/api/upload/editorPic",
+        server: import.meta.env.VITE_BASE_URL + "/api/upload/editorPic",
         fieldName: "file",
       },
-      uploadVideo:{
-        server:"http://localhost:3000/api/upload/video",
-        fieldName:"file"
-      }
+      uploadVideo: {
+        server: import.meta.env.VITE_BASE_URL + "/api/upload/video",
+        fieldName: "file",
+      },
     },
   };
-  const checkDetail=(row)=>{
-    navigate("/articleDetail",{state:{detail:row}})
-  }
+  const checkDetail = (row) => {
+    navigate("/articleDetail", { state: { detail: row } });
+  };
   useEffect(() => {
     // AddOneGroup().then(res=>console.log(res))
     GetGroupList({ current, pageSize }).then((res) => {

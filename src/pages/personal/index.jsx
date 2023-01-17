@@ -46,7 +46,7 @@ const Personal = memo(() => {
   };
   const uploadConfig = {
     name: "file",
-    action: "http://localhost:3000/api/upload/image",
+    action: import.meta.env.VITE_BASE_URL + "/api/upload/image",
     headers: {
       authorization:
         "Bearer " +
@@ -59,8 +59,7 @@ const Personal = memo(() => {
       if (info.file.status === "done") {
         message.success(`${info.file.name}` + "上传成功");
         console.log("--------------------------");
-        const result =
-          "http://localhost:3000/uploads/" + info.file.response.filename;
+        const result = info.file.response.url;
         // setImageUrl(result);
         updateAvatar({ id: userinfo.id, avatar: result }).then((res) => {
           console.log("-----------更新头像后");

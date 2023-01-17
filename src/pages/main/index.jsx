@@ -48,9 +48,9 @@ const Main = memo(() => {
 
   useEffect(() => {
     navigate("/index");
+    // console.log("-----------测试env环境");
+    // console.log();
     getPersonalInfo().then((res) => {
-      // console.log("email");
-      // console.log(res.data?.email);
       dispatch(saveInfo(res.data));
       setInfo(res.data);
     });
