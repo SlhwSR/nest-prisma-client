@@ -17,6 +17,7 @@ import {
   DislikeOutlined,
   LikeFilled,
   LikeOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { Comment } from "@ant-design/compatible";
@@ -64,12 +65,12 @@ const ArticleDetail = memo(() => {
       }
     });
     setDislikes(0);
-    setAction("liked");
+    // setAction("liked");
   };
   const dislike = () => {
     setLikes(0);
     setDislikes(1);
-    setAction("disliked");
+    // setAction("disliked");
   };
   const handleComment = () => {
     if (value.length === 0) {
@@ -160,7 +161,10 @@ const ArticleDetail = memo(() => {
               ]}
               author={<a>{item?.userInfo.email}</a>}
               avatar={
-                <Avatar src={item.userInfo.avatar} alt={item?.userInfo.email} />
+                <Avatar
+                  src={item?.userInfo?.avatar}
+                  alt={item?.userInfo.email}
+                />
               }
               content={<p>{item.content}</p>}
               datetime={
@@ -255,14 +259,14 @@ const ArticleDetail = memo(() => {
       })}
       {/* <div className="absolute bottom-0"> */}
       <Comment
-        avatar={<Avatar src={info.avatar} alt={info.email} />}
+        avatar={
+          <Avatar
+            src={info.avatar}
+            icon={info?.avatar ? <UserOutlined></UserOutlined> : ""}
+            alt={info.email}
+          />
+        }
         content={
-          // <Editor
-          //   onChange={handleChange}
-          //   onSubmit={handleSubmit}
-          //   // submitting={submitting}
-          //   value={value}
-          // />
           <Col span={24}>
             <Space className="w-full">
               <TextArea
