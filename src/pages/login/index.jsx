@@ -21,7 +21,7 @@ const Login = memo(() => {
         <div className="login-left">
           <img src={loginLeft} alt="login" />
         </div>
-        <div className="login-form">
+        <div className="login-form animate__animated animate__repeat-1 animate__bounceInRight">
           <div
             className="ml-96 text-2xl cursor-pointer font-bold col-span-5"
             onClick={() => setregister(!register)}

@@ -39,7 +39,6 @@ const AxiosInterceptors = (props) => {
         return Promise.reject(err);
       }
     );
-
     props.request.interceptors.response.use(
       (response) => {
         nProgress.done();
