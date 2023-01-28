@@ -8,6 +8,7 @@ import {
   PauseOutlined,
   SoundOutlined,
 } from "@ant-design/icons";
+import { useMemo } from "react";
 const VideoDetail = memo(() => {
   const {
     state: { createdAt, poster, updatedAt, url },
@@ -98,11 +99,7 @@ const VideoDetail = memo(() => {
           }}
         ></SoundOutlined>
       </Popover>
-
       <pre>{JSON.stringify(state, null, 2)}</pre>
-      <button onClick={() => controls.volume(0.1)}>Volume: 10%</button>
-      <button onClick={() => controls.volume(0.5)}>Volume: 50%</button>
-      <button onClick={() => controls.volume(1)}>Volume: 100%</button>
       {/* <Video url={url} poster={poster}></Video> */}
     </div>
   );
