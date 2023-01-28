@@ -236,6 +236,7 @@ const GroupManage = memo(() => {
                   GetGroupList({ current: 1, pageSize: 10 }).then((res) => {
                     setDataSource(res.data.data);
                     setTotal(res.data.total);
+                    form.setFieldValue("title","")
                   });
                 }}
               >
