@@ -14,6 +14,7 @@ import "./assets/css/base.css";
 import "@wangeditor/editor/dist/css/style.css";
 import { SwitchTransition } from "react-transition-group";
 import Loading from "@/components/loading";
+import "animate.css";
 dayjs.locale("zh-cn");
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider
@@ -32,9 +33,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   >
     <Provider store={store}>
       <Suspense fallback={<Loading></Loading>}>
-        <SwitchTransition>
-          <RouterProvider router={router}></RouterProvider>
-        </SwitchTransition>
+        <RouterProvider router={router}></RouterProvider>
       </Suspense>
     </Provider>
   </ConfigProvider>

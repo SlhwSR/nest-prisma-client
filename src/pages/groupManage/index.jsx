@@ -236,7 +236,7 @@ const GroupManage = memo(() => {
                   GetGroupList({ current: 1, pageSize: 10 }).then((res) => {
                     setDataSource(res.data.data);
                     setTotal(res.data.total);
-                    form.setFieldValue("title","")
+                    form.setFieldValue("title", "");
                   });
                 }}
               >
@@ -255,6 +255,7 @@ const GroupManage = memo(() => {
       </Form>
       <Divider></Divider>
       <Table
+        className="animate__animated animate__fadeInRight animate__repeat-1 animate__faster"
         dataSource={dataSource}
         columns={colum}
         pagination={{

@@ -116,7 +116,7 @@ const PlanManage = memo(() => {
         添加分类
       </Button>
       <div
-        className="mx-auto flex space-x-4 flex-wrap justify-center space-y-10"
+        className="mx-auto flex space-x-4 flex-wrap justify-center space-y-10 animate__animated animate-pulse animate__repeat-1"
         style={{ width: "700px" }}
       >
         {(list || []).map((item, index) => (
