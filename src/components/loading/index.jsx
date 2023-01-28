@@ -4,7 +4,7 @@ import "./index.css";
 const Loading = memo(() => {
   return (
     <div className="example">
-      <Spin></Spin>
+      <Spin size="large" style={{ position: "absolute", top: "50%" }}></Spin>
     </div>
   );
 });

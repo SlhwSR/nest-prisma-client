@@ -36,7 +36,7 @@ const VideoCategory = memo(() => {
   const navigate = useNavigate();
   const uploadConfig = {
     name: "file",
-    action: import.meta.env.VITE_BASE_URL+"/api/upload/image",
+    action: import.meta.env.VITE_BASE_URL + "/api/upload/image",
     headers: {
       authorization:
         "Bearer " +
@@ -61,7 +61,7 @@ const VideoCategory = memo(() => {
   };
   const videoConfig = {
     name: "file",
-    action: import.meta.env.VITE_BASE_URL+"/api/upload/video",
+    action: import.meta.env.VITE_BASE_URL + "/api/upload/video",
     headers: {
       authorization:
         "Bearer " +
@@ -231,7 +231,7 @@ const VideoCategory = memo(() => {
             rules={[{ required: true, message: "封面必填" }]}
           >
             <Upload {...uploadConfig}>
-              {imageUrl.length > 0 ? (
+              {imageUrl?.length > 0 ? (
                 <Image src={imageUrl}></Image>
               ) : (
                 uploadButton

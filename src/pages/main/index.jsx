@@ -32,6 +32,7 @@ import { useState } from "react";
 import { saveInfo } from "../../store/info";
 import { CSSTransition, Transition } from "react-transition-group";
 import "@/assets/css/transition.css";
+import Loading from "@/components/loading";
 const { Header, Content, Sider } = Layout;
 const Main = memo(() => {
   const navigate = useNavigate();
@@ -174,35 +175,18 @@ const Main = memo(() => {
             minHeight: "1000px",
           }}
         >
-          <Content
-            style={{
-              padding: "24px 24px",
-              minHeight: "780px",
-              overflow: "auto",
-              backgroundColor: "#fff",
-            }}
-          >
-            <Suspense
-              fallback={<h1>loading....</h1>}
-              style={{ overflow: "auto" }}
+          <Suspense fallback={<Loading></Loading>} style={{ overflow: "auto" }}>
+            <Content
+              style={{
+                padding: "24px 24px",
+                minHeight: "780px",
+                overflow: "auto",
+                backgroundColor: "#fff",
+              }}
             >
-              <Transition>
-                <CSSTransition
-                  key={location.pathname}
-                  nodeRef={animateRef}
-                  timout={1000}
-                  classNames="main"
-                >
-                  {(state) => (
-                    <div ref={animateRef} className="main">
-                      {currentOutLet}
-                    </div>
-                  )}
-                </CSSTransition>
-              </Transition>
-              {/* <Outlet></Outlet> */}
-            </Suspense>
-          </Content>
+              <Outlet></Outlet>
+            </Content>
+          </Suspense>
         </Layout>
       </Layout>
       <Modal
