@@ -99,7 +99,7 @@ const VideoDetail = memo(() => {
           }}
         ></SoundOutlined>
       </Popover>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
       {/* <Video url={url} poster={poster}></Video> */}
     </div>
   );
